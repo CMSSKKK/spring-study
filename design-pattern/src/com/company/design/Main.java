@@ -3,6 +3,12 @@ package com.company.design;
 import com.company.design.adapter.*;
 import com.company.design.aop.AopBrowser;
 import com.company.design.decorator.*;
+import com.company.design.facade.Ftp;
+import com.company.design.facade.Reader;
+import com.company.design.facade.SftpClient;
+import com.company.design.facade.Writer;
+import com.company.design.observer.Button;
+import com.company.design.observer.IButtonListener;
 import com.company.design.proxy.Browser;
 import com.company.design.proxy.BrowserProxy;
 import com.company.design.proxy.IBrowser;
@@ -71,7 +77,7 @@ public class Main {
         System.out.println("loading time : "+end.get());*/
 
         //decorator
-        ICar audi = new Audi(1000);
+        /*ICar audi = new Audi(1000);
         audi.showPrice();
 
         ICar audi3 = new A3(audi,"A3");
@@ -81,7 +87,46 @@ public class Main {
         audi4.showPrice();
 
         ICar audi5 = new A5(audi,"A5");
-        audi5.showPrice();
+        audi5.showPrice();*/
+
+        //observer
+        /*Button button = new Button("버튼");
+        button.addListener(new IButtonListener() {
+            @Override
+            public void clickEvent(String event) {
+                System.out.println(event);
+            }
+        });
+
+        button.click("message1");
+        button.click("message2");
+        button.click("message3");
+        button.click("message4");*/
+
+        //facade 사용하지 않으면
+       /* Ftp ftpClient = new Ftp("www.foo.co.kr",22, "/home/etc");
+        ftpClient.connect();
+        ftpClient.moveDirectory();
+
+        Writer writer = new Writer("text.tmp");
+        writer.fileConnect();
+        writer.write();
+
+        Reader reader = new Reader("text.tmp");
+        reader.fileConnect();
+        reader.fileRead();
+
+        reader.fileDisconnect();
+        writer.fileDisconnect();
+        ftpClient.disConnect();*/
+
+        //facade
+        SftpClient sftpClient = new SftpClient("www.foo.co.kr",22,"/home/etc","text.tmp");
+        sftpClient.connect();
+        sftpClient.write();
+        sftpClient.read();
+        sftpClient.disConnect();
+
     }
     // 콘센트
     public static void connect(Electronic110V electronic110V) {
