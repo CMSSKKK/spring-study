@@ -15,6 +15,7 @@ import com.company.design.proxy.IBrowser;
 import com.company.design.singleton.AClazz;
 import com.company.design.singleton.BClazz;
 import com.company.design.singleton.SocketClient;
+import com.company.design.strategy.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -121,12 +122,31 @@ public class Main {
         ftpClient.disConnect();*/
 
         //facade
-        SftpClient sftpClient = new SftpClient("www.foo.co.kr",22,"/home/etc","text.tmp");
+        /*SftpClient sftpClient = new SftpClient("www.foo.co.kr",22,"/home/etc","text.tmp");
         sftpClient.connect();
         sftpClient.write();
         sftpClient.read();
-        sftpClient.disConnect();
+        sftpClient.disConnect();*/
 
+        //strategy
+        Encoder encoder = new Encoder();
+
+        EncodingStrategy base64 = new Base64Strategy();
+
+        EncodingStrategy normal = new NormalStrategy();
+        String message ="hello java";
+        encoder.setEncodingStrategy(base64);
+        String base64Result = encoder.getMessage(message);
+
+        encoder.setEncodingStrategy(normal);
+        String normalResult = encoder.getMessage(message);
+
+        System.out.println(base64Result);
+        System.out.println(normalResult);
+
+        encoder.setEncodingStrategy(new AppendStrategy());
+        String appendResult = encoder.getMessage(message);
+        System.out.println(appendResult);
     }
     // 콘센트
     public static void connect(Electronic110V electronic110V) {
